@@ -60,9 +60,11 @@ function drawOneXLine(n)
 }
 function drawAll()
 {
+    //console.log("functioniert")
     drawYLine()
     drawXLine()
     maleZellen()
+   
 
 }
 function ueberPruefungDerNachbern(n,m)
@@ -147,19 +149,15 @@ function maleEineZelle(i,j)
 {
     var x1=i*a
     var y1=j*b
-    var x2=x1+5
-    var y2=y1+5
+    var x2=x1
+    var y2=y1
 
     const c = document.getElementById('sdl');
     const context = c.getContext('2d');
     //console.log("zelle x1:"+x1+", y1:"+y1+", x2:"+x2+", y2:"+y2)
     if(grid[i][j] == 1 )
     {
-        context.beginPath();
-        context.lineWidth = 1;
-        context.moveTo(x1, y1);
-        context.lineTo(x2, y2);
-        context.stroke();
+        context.fillRect(x1,y1,x2,y2);
     }
 }
 function reset()
