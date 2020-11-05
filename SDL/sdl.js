@@ -11,14 +11,14 @@ var breite =300
 var a = breite/nCols
 var hoehe = 300
 var b =hoehe/nRows
-var grid
+var grid=zellen()
 var nextgrid
 
 function drawLine(x1,y1,x2,y2)
 {
     const c = document.getElementById('sdl');
     const context = c.getContext('2d');
-    console.log("x1:"+x1+", y1:"+y1+", x2:"+x2+", y2:"+y2)
+    //console.log("x1:"+x1+", y1:"+y1+", x2:"+x2+", y2:"+y2)
     context.beginPath();
   context.lineWidth = 1;
   context.moveTo(x1, y1);
@@ -101,11 +101,11 @@ function regelnDesLebens(zustand, anzahlNachbarn)
 function zellen()
 {
     var grid=make2DArray(20,20);
-    for(let i=0; i<cols; i++)
+    for(let i=0; i<nCols; i++)
     {
-        for(let j=0; j<rows; j++)
+        for(let j=0; j<nRows; j++)
         {  
-        grid[i][j]= floor(random(2))    
+        grid[i][j]= Math.floor(Math.random()*2)    
         }
     }
     return grid
@@ -121,7 +121,7 @@ function next()
     {
         for(let j=0; j<nRows; j++)
         {  
-            var anzahlNachbarn = `???`
+            
             nextgrid[i][j] = regelnDesLebens(grid[i][j], ueberPruefungDerNachbern(i,j)) 
         }
     }
@@ -135,4 +135,57 @@ function next()
 function maleZellen()
 {
     // male alle zellen
+    for(let i=0; i<nCols; i++)
+    {
+        for(let j=0; j<nRows; j++)
+        { 
+            maleEineZelle(i,j) 
+        }
+    }
 }
+function maleEineZelle(i,j)
+{
+    var x1=i*a
+    var y1=j*b
+    var x2=x1+5
+    var y2=y1+5
+
+    const c = document.getElementById('sdl');
+    const context = c.getContext('2d');
+    //console.log("zelle x1:"+x1+", y1:"+y1+", x2:"+x2+", y2:"+y2)
+    if(grid[i][j] == 1 )
+    {
+        context.beginPath();
+        context.lineWidth = 1;
+        context.moveTo(x1, y1);
+        context.lineTo(x2, y2);
+        context.stroke();
+    }
+}
+function reset()
+{
+    grid=zellen()
+     deleteAll()
+     drawAll()
+}
+function deleteAll()
+{
+    const c = document.getElementById('sdl');
+    const context = c.getContext('2d');
+
+context.clearRect(0, 0, c.width, c.height);
+}
+/**
+ * @param  {number} rows das ist die anzahl der zeilen
+ * @param  {number} cols
+ */
+function make2DArray(rows, cols) {
+    let x = [];
+    for (let i = 0; i < rows; i++) {
+      x[i] = [];
+      for (let j = 0; j < cols; j++) {
+        x[i][j] = [];
+      }
+    }
+    return x;
+  }
