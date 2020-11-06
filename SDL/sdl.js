@@ -12,7 +12,8 @@ var a = breite/nCols
 var hoehe = 300
 var b =hoehe/nRows
 var grid=zellen()
-var nextgrid
+var nextgrid =zellen();
+var timer
 
 function drawLine(x1,y1,x2,y2)
 {
@@ -70,35 +71,36 @@ function drawAll()
 function ueberPruefungDerNachbern(n,m)
 {
     console.log("Nachbarn von " + n + ", " + m)
-    let sum = 0
+    let sum = 0 
     for(let i = -1; i< 2; i++)
     {
         for(let j = -1; j < 2; j++)
         {
-            let col = ( x + i + nCols) % nCols;
-            let row = ( y + j + nRows) % nRows;
+            let col = ( n + i + nCols) % nCols;
+            let row = ( m + j + nRows) % nRows;
             sum +=grid[col][row];
         } 
 
     }
-
+    console.log("nachbarn " + sum )
     return sum;
 }
 
 function regelnDesLebens(zustand, anzahlNachbarn)
 {
-    console.log(zustand)
+    //console.log(zustand)
 
     // Regel 1
-    if (zustand == "dead" && anzahlNachbarn == 3 )
-        return "alive"
+    if (zustand == 0 && anzahlNachbarn == 3 )
+        return 1
 
     // Regel 2
-    if(zustand == "alive" && anzahlNachbarn < 2 )
-    return "dead"
+    if(zustand == 1 && anzahlNachbarn < 2 )
+        return 0
     // Regel 3
-    if(zustand == "alive" && anzahlNachbarn > 3 )
-    return "dead"
+    if(zustand == 1 && anzahlNachbarn > 3 )
+        return 0
+    return zustand
 }
 function zellen()
 {
@@ -129,8 +131,17 @@ function next()
     }
     
     // mache nextgrid zu grid, male neuese, leeres nextgrid  
+    for(let i=0; i<nCols; i++)
+    {
+        for(let j=0; j<nRows; j++)
+        {  
+            
+            grid[i][j] = nextgrid[i][j] 
+        }
+    }
     //male grid
-    maleZellen()
+    deleteAll()
+    drawAll()
 
 }
 
@@ -157,7 +168,7 @@ function maleEineZelle(i,j)
     //console.log("zelle x1:"+x1+", y1:"+y1+", x2:"+x2+", y2:"+y2)
     if(grid[i][j] == 1 )
     {
-        context.fillRect(x1,y1,x2,y2);
+        context.fillRect(x1,y1,a,b);
     }
 }
 function reset()
@@ -187,3 +198,22 @@ function make2DArray(rows, cols) {
     }
     return x;
   }
+function startAutomatik()
+{
+  
+    resetAutomatik()
+
+}
+function resetAutomatik()
+{
+    reset()
+    timer = setTimeout(resetAutomatik,1000)
+}
+
+function stop()
+{ 
+    {
+            clearTimeout(timer);
+            timer = 0;
+    }
+}
