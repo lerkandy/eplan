@@ -5,8 +5,8 @@ function start()
     grid=zellen();
 
 }
-var nRows = 20
-var nCols = 20
+var nRows = 100
+var nCols = 100
 var breite =300
 var a = breite/nCols
 var hoehe = 300
@@ -62,15 +62,15 @@ function drawOneXLine(n)
 function drawAll()
 {
     //console.log("functioniert")
-    drawYLine()
-    drawXLine()
+    //drawYLine()
+    //drawXLine()
     maleZellen()
    
 
 }
 function ueberPruefungDerNachbern(n,m)
 {
-    console.log("Nachbarn von " + n + ", " + m)
+    //console.log("Nachbarn von " + n + ", " + m)
     let sum = 0 
     for(let i = -1; i< 2; i++)
     {
@@ -80,9 +80,10 @@ function ueberPruefungDerNachbern(n,m)
             let row = ( m + j + nRows) % nRows;
             sum +=grid[col][row];
         } 
-
+        
     }
-    console.log("nachbarn " + sum )
+    sum -= grid[n][m]
+    //console.log("nachbarn " + sum )
     return sum;
 }
 
@@ -104,7 +105,7 @@ function regelnDesLebens(zustand, anzahlNachbarn)
 }
 function zellen()
 {
-    var grid=make2DArray(20,20);
+    var grid=make2DArray(nCols,nRows);
     for(let i=0; i<nCols; i++)
     {
         for(let j=0; j<nRows; j++)
@@ -206,8 +207,8 @@ function startAutomatik()
 }
 function resetAutomatik()
 {
-    reset()
-    timer = setTimeout(resetAutomatik,1000)
+    next()
+    timer = setTimeout(resetAutomatik,250)
 }
 
 function stop()
