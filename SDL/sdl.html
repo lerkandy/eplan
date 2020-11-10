@@ -6,11 +6,12 @@
 <body onload="init()">
 <canvas id="sdl" width="300" height="300" style="Border:1mm solid black ;"></canvas>
 <form name="f1">
-    <input type="text" name="eingabe" value="20"/>
+    <input type="text" name="eingabe" value="2"/>
 </form>
-<input type="Button" value="reset" onclick="reset()"/>
-<input type="Button" value="next" onclick="next()"/>
-<input type="Button" value="start" onclick="startAutomatik()"/>
-<input type="Button" value="stop" onclick="stop()"/>
+<input type="Button" value="reset" onclick="reset(false)"/><!-- Neue Zellen anordnung erstellen -->
+<input type="Button" value="clear" onclick="reset(true)"/><!-- alles Löschen auch das Array -->
+<input type="Button" value="next" onclick="next()"/><!-- nächste generation berechnen und anzeigen -->
+<input type="Button" value="start" onclick="startAutomatik()"/><!--Automatisch neuen generation berechnen und anzeigen -->
+<input type="Button" value="stop" onclick="stop()"/><!-- die Automatische berechnung und anzeige von generationen stopen -->
 </body>
 </html>

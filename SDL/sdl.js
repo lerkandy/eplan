@@ -1,41 +1,82 @@
+/*
 
-function start()
-{
-    console.log("start")
-}
-function init()
-{
-    initVars()
-    drawAll()
-}
+
+Das Game of Life von John Horton Conway;Programmiert von andreas Kerl
+
+
+
+
+
+Variabelen
+*/
 var nRows
 var nCols
 const breite =300
-var a 
 const hoehe = 300
+var a 
 var b 
 var grid
 var nextgrid 
 var timer
 
-function initVars() {
+function start()
+{
+    console.log("start")
+}
+
+function init() //Zellen bearbeiten mit der maus
+{
+    //const c = document.getElementById('sdl')
+    sdl.addEventListener('mousedown', e => {
+        x = e.offsetX
+        y = e.offsetY
+        
+        if (x>=0 && x<breite && y>=0 && y<hoehe) // exclude clicks on border
+        {
+            var m =Math.floor(x/breite*nCols)
+            var n=Math.floor(y/hoehe*nRows)
+            if ( grid[m][n] == 1)
+            {
+                grid[m][n]=0
+            }
+            else
+            {
+                grid[m][n]=1
+            }
+           
+        }
+        else
+        {
+            console.log("Upds, click on border: " + x + ", " + y)
+        }
+        deleteAll()
+        drawAll()
+      })
+    initVars()
+    drawAll()
+}
+
+
+
+function initVars(clear)    //eingabe um die Zellen anzahl zu bestimmen
+{
     var eingabe = parseInt(document.forms["f1"]["eingabe"].value)
     nRows = eingabe
     nCols = eingabe
     a = breite / nCols
     b = hoehe / nRows
-    grid = zellen()
-    nextgrid = zellen()
+    grid = zellen(clear)
+    nextgrid = zellen(true)
 }
 
-function drawLine(x1,y1,x2,y2)
+function drawLine(x1,y1,x2,y2)  //die Linien zwischen den Zellen zeichnen (optional)
 {
     const c = document.getElementById('sdl');
     const context = c.getContext('2d');
     //console.log("x1:"+x1+", y1:"+y1+", x2:"+x2+", y2:"+y2)
     context.beginPath();
-  context.lineWidth = 1;
-  context.moveTo(x1, y1);
+    context.lineWidth = 1;
+    context.moveTo(x1, y1);
   context.lineTo(x2, y2);
   context.stroke();
 }
@@ -47,6 +88,7 @@ function drawYLine()
         drawOneYLine(i)
     }
 }
+
 function drawXLine()
 {
     for (var i = 0; i < nRows; i++) 
@@ -54,8 +96,8 @@ function drawXLine()
         drawOneXLine(i)
     }
 }
-function drawOneYLine(n)
 
+function drawOneYLine(n)
 {
     var x1=n*a
     var y1=0
@@ -63,8 +105,8 @@ function drawOneYLine(n)
     var y2=hoehe
     drawLine(x1,y1,x2,y2)
 }
-function drawOneXLine(n)
 
+function drawOneXLine(n)
 {
     var x1=0
     var y1=n*a
@@ -72,7 +114,8 @@ function drawOneXLine(n)
     var y2=y1
     drawLine(x1,y1,x2,y2)
 }
-function drawAll()
+
+function drawAll()//spielfeld und zellen zeichnen
 {
     //console.log("functioniert")
     //drawYLine()
@@ -81,7 +124,10 @@ function drawAll()
    
 
 }
-function gibFarbe()
+
+/*
+noch nicht realiesiert 
+function gibFarbe() //eine zufällige Farbe für die Zellen bekommen (optional)
 {
     var r = getRandomInt(0, 255);
       var g = getRandomInt(0, 255);
@@ -89,7 +135,9 @@ function gibFarbe()
     return "rgb(" + r + "," + g + "," + b + ")";
 
 }
-function ueberPruefungDerNachbern(n,m)
+*/
+
+function ueberPruefungDerNachbern(n,m)//wie viele nachbern hat eine zelle
 {
     //console.log("Nachbarn von " + n + ", " + m)
     let sum = 0 
@@ -108,7 +156,7 @@ function ueberPruefungDerNachbern(n,m)
     return sum;
 }
 
-function regelnDesLebens(zustand, anzahlNachbarn)
+function regelnDesLebens(zustand, anzahlNachbarn)// soll eine Zelle überleben Ja nein 
 {
     //console.log(zustand)
 
@@ -124,21 +172,59 @@ function regelnDesLebens(zustand, anzahlNachbarn)
         return 0
     return zustand
 }
-function zellen()
+
+function zellen(clear)//zellen bestimmen und Array befüllen mit der info ob die zelle lebt oder tot ist
 {
     var grid=make2DArray(nCols,nRows);
     for(let i=0; i<nCols; i++)
     {
         for(let j=0; j<nRows; j++)
         {  
-        grid[i][j]= Math.floor(Math.random()*2)    
+            var wert
+            if (clear)
+            {
+                wert = 0
+            }
+            else
+            {
+                wert = Math.floor(Math.random()*2)
+            }
+            
+            grid[i][j]=wert;     
         }
     }
     return grid
 }
+function maleZellen()//
+{
+    // male alle zellen
+    for(let i=0; i<nCols; i++)
+    {
+        for(let j=0; j<nRows; j++)
+        { 
+            maleEineZelle(i,j) 
+        }
+    }
+}
+function maleEineZelle(i,j)
+{
+    var x1=i*a
+    var y1=j*b
+    var x2=x1
+    var y2=y1
+
+    const c = document.getElementById('sdl');
+    const context = c.getContext('2d');
+   // console.log("zelle x1:"+x1+", y1:"+y1+", x2:"+x2+", y2:"+y2)
+    if(grid[i][j] == 1 )
+    {
+        //context.fillRect = gibFarbe()
+        context.fillRect(x1,y1,a,b);
+    }
+}
 
 // next aurufen, wenn button next gedrueckt
-function next()
+function next()//die nächste generation bestimmen
 {
     // neues grid der naecxhstenb generation aus "grid" berechnen
 
@@ -167,40 +253,14 @@ function next()
 
 }
 
-function maleZellen()
+function reset(clear)//neue anordnung der zellen
 {
-    // male alle zellen
-    for(let i=0; i<nCols; i++)
-    {
-        for(let j=0; j<nRows; j++)
-        { 
-            maleEineZelle(i,j) 
-        }
-    }
-}
-function maleEineZelle(i,j)
-{
-    var x1=i*a
-    var y1=j*b
-    var x2=x1
-    var y2=y1
-
-    const c = document.getElementById('sdl');
-    const context = c.getContext('2d');
-   // console.log("zelle x1:"+x1+", y1:"+y1+", x2:"+x2+", y2:"+y2)
-    if(grid[i][j] == 1 )
-    {
-        //context.fillRect = gibFarbe()
-        context.fillRect(x1,y1,a,b);
-    }
-}
-function reset()
-{
-    initVars()
+    initVars(clear)
      deleteAll()
      drawAll()
 }
-function deleteAll()
+
+function deleteAll()//alles auser das Array löschen
 {
     const c = document.getElementById('sdl');
     const context = c.getContext('2d');
@@ -211,7 +271,9 @@ context.clearRect(0, 0, c.width, c.height);
  * @param  {number} rows das ist die anzahl der zeilen
  * @param  {number} cols
  */
-function make2DArray(rows, cols) {
+function make2DArray(rows, cols)//ein Array erstellen um die Infos zu übermitteln
+
+{
     let x = [];
     for (let i = 0; i < rows; i++) {
       x[i] = [];
@@ -227,13 +289,12 @@ function startAutomatik()
     resetAutomatik()
 
 }
-function resetAutomatik()
+function resetAutomatik()//loop um die generationen automatisch laufen zu lassen(ist stackbar)
 {
     next()
     timer = setTimeout(resetAutomatik,250)
 }
-
-function stop()
+function stop()//den Loop in resetAutomatik zu stopen (wenn resetAutomatik stackt ist muss man mehr mahls auf stop drücken)
 { 
     {
             clearTimeout(timer);
