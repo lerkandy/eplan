@@ -3,13 +3,14 @@
         <title>JavaScript als externe Datei einbinden</title>
         <script language="javascript" type="text/javascript" src="sdl.js"></script>
     </head>
-<body onload="drawAll()">
+<body onload="init()">
 <canvas id="sdl" width="300" height="300" style="Border:1mm solid black ;"></canvas>
+<form name="f1">
+    <input type="text" name="eingabe" value="20"/>
+</form>
 <input type="Button" value="reset" onclick="reset()"/>
 <input type="Button" value="next" onclick="next()"/>
 <input type="Button" value="start" onclick="startAutomatik()"/>
 <input type="Button" value="stop" onclick="stop()"/>
 </body>
 </html>
-
-

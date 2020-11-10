@@ -2,18 +2,31 @@
 function start()
 {
     console.log("start")
-    grid=zellen();
-
 }
-var nRows = 100
-var nCols = 100
-var breite =300
-var a = breite/nCols
-var hoehe = 300
-var b =hoehe/nRows
-var grid=zellen()
-var nextgrid =zellen();
+function init()
+{
+    initVars()
+    drawAll()
+}
+var nRows
+var nCols
+const breite =300
+var a 
+const hoehe = 300
+var b 
+var grid
+var nextgrid 
 var timer
+
+function initVars() {
+    var eingabe = parseInt(document.forms["f1"]["eingabe"].value)
+    nRows = eingabe
+    nCols = eingabe
+    a = breite / nCols
+    b = hoehe / nRows
+    grid = zellen()
+    nextgrid = zellen()
+}
 
 function drawLine(x1,y1,x2,y2)
 {
@@ -66,6 +79,14 @@ function drawAll()
     //drawXLine()
     maleZellen()
    
+
+}
+function gibFarbe()
+{
+    var r = getRandomInt(0, 255);
+      var g = getRandomInt(0, 255);
+      var b = getRandomInt(0, 255);
+    return "rgb(" + r + "," + g + "," + b + ")";
 
 }
 function ueberPruefungDerNachbern(n,m)
@@ -166,15 +187,16 @@ function maleEineZelle(i,j)
 
     const c = document.getElementById('sdl');
     const context = c.getContext('2d');
-    //console.log("zelle x1:"+x1+", y1:"+y1+", x2:"+x2+", y2:"+y2)
+   // console.log("zelle x1:"+x1+", y1:"+y1+", x2:"+x2+", y2:"+y2)
     if(grid[i][j] == 1 )
     {
+        //context.fillRect = gibFarbe()
         context.fillRect(x1,y1,a,b);
     }
 }
 function reset()
 {
-    grid=zellen()
+    initVars()
      deleteAll()
      drawAll()
 }
