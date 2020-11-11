@@ -232,9 +232,26 @@ function maleZellen()//
     }
 }
 
-function colors()
+function colors(alter)
 {
+    var farbmapping = {1:"#001100", 2:"#002200", 3:"#003300", 4:"#004400", 5:"#005500", 6:"#006600", 7:"#007700"};
+
+
+    var farbe = "#ff0000"
+    if(alter <=8)
+    {
+        farbe = farbmapping[alter]
+    } else if(alter< 20)
+    {
+        farbe = "#00ff00"
+    }
+    else
+    {
+        farbe = "#0000ff"
+    }
     
+    
+   return farbe
 }
 
 function maleEineZelle(i,j)
@@ -250,7 +267,7 @@ function maleEineZelle(i,j)
     if(grid[i][j] >= 1 )
     {
         //context.fillRect = gibFarbe()
-        context.fillStyle = "#b22222"
+        context.fillStyle = colors(grid[i][j])
         context.fillRect(x1,y1,a,b);
     }
 }
@@ -277,7 +294,7 @@ function next()//die nächste generation bestimmen
             else
             {
                 // Zelle soll leben
-                if (soWarDieZelleBisher == 1)
+                if (soWarDieZelleBisher >= 1)
                 {
                     soSollDieNeueZelleSein=soWarDieZelleBisher + 1 // wenn sie gealtert ist
                 }
