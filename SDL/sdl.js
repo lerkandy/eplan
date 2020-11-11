@@ -140,6 +140,7 @@ function gibFarbe() //eine zufällige Farbe für die Zellen bekommen (optional)
 function ueberPruefungDerNachbern(n,m)//wie viele nachbern hat eine zelle
 {
     //console.log("Nachbarn von " + n + ", " + m)
+    /*
     let sum = 0 
     for(let i = -1; i< 2; i++)
     {
@@ -147,30 +148,53 @@ function ueberPruefungDerNachbern(n,m)//wie viele nachbern hat eine zelle
         {
             let col = ( n + i + nCols) % nCols;
             let row = ( m + j + nRows) % nRows;
-            sum +=grid[col][row];
+            sum+=grid[col][row];
         } 
         
     }
     sum -= grid[n][m]
     //console.log("nachbarn " + sum )
     return sum;
+    */
+   let sum = 0
+   for(let i = -1; i< 2; i++) 
+   {
+    for(let j = -1; j < 2; j++)
+    {
+        let col = ( n + i + nCols) % nCols;
+        let row = ( m + j + nRows) % nRows;
+        if(grid[col][row]>=1)
+        {
+            
+            sum++
+        }
+         //console.log("nachbarn" )
+    }
+   }
+   if(grid[n][m]>=1)
+        {
+            sum--
+        }  
+    return sum
 }
 
-function regelnDesLebens(zustand, anzahlNachbarn)// soll eine Zelle überleben Ja nein 
+function regelnDesLebens(zustand, anzahlNachbarn)// soll eine Zelle überleben Ja=1 nein =0
 {
     //console.log(zustand)
+    let lebt = ( zustand==0? false : true);
 
     // Regel 1
-    if (zustand == 0 && anzahlNachbarn == 3 )
+    if ( !lebt && anzahlNachbarn == 3 )
         return 1
 
     // Regel 2
-    if(zustand == 1 && anzahlNachbarn < 2 )
+    if( lebt && anzahlNachbarn < 2 )
         return 0
     // Regel 3
-    if(zustand == 1 && anzahlNachbarn > 3 )
+    if( lebt && anzahlNachbarn > 3 )
         return 0
-    return zustand
+
+    return ( zustand==0? 0 : 1)
 }
 
 function zellen(clear)//zellen bestimmen und Array befüllen mit der info ob die zelle lebt oder tot ist
@@ -195,6 +219,7 @@ function zellen(clear)//zellen bestimmen und Array befüllen mit der info ob die
     }
     return grid
 }
+
 function maleZellen()//
 {
     // male alle zellen
@@ -206,6 +231,12 @@ function maleZellen()//
         }
     }
 }
+
+function colors()
+{
+    
+}
+
 function maleEineZelle(i,j)
 {
     var x1=i*a
@@ -216,9 +247,10 @@ function maleEineZelle(i,j)
     const c = document.getElementById('sdl');
     const context = c.getContext('2d');
    // console.log("zelle x1:"+x1+", y1:"+y1+", x2:"+x2+", y2:"+y2)
-    if(grid[i][j] == 1 )
+    if(grid[i][j] >= 1 )
     {
         //context.fillRect = gibFarbe()
+        context.fillStyle = "#b22222"
         context.fillRect(x1,y1,a,b);
     }
 }
@@ -233,8 +265,29 @@ function next()//die nächste generation bestimmen
     {
         for(let j=0; j<nRows; j++)
         {  
-            
-            nextgrid[i][j] = regelnDesLebens(grid[i][j], ueberPruefungDerNachbern(i,j)) 
+            var soWarDieZelleBisher = grid[i][j]
+            var sollDieZelleUeberleben = regelnDesLebens(grid[i][j], ueberPruefungDerNachbern(i,j)) 
+            var soSollDieNeueZelleSein
+
+            if (sollDieZelleUeberleben == 0)
+            {
+                // Zelle soll sterben
+                soSollDieNeueZelleSein=0 // war vorher schon tot oder nicht, das ist egal
+            }
+            else
+            {
+                // Zelle soll leben
+                if (soWarDieZelleBisher == 1)
+                {
+                    soSollDieNeueZelleSein=soWarDieZelleBisher + 1 // wenn sie gealtert ist
+                }
+                else 
+                {
+                    soSollDieNeueZelleSein=1//frisch geboren
+                }
+            }
+
+            nextgrid[i][j] = soSollDieNeueZelleSein
         }
     }
     
