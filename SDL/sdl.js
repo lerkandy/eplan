@@ -19,6 +19,7 @@ var grid
 var nextgrid 
 var timer
 
+
 function start()
 {
     console.log("start")
@@ -355,19 +356,69 @@ function make2DArray(rows, cols)//ein Array erstellen um die Infos zu übermitte
   }
 function startAutomatik()
 {
-  
+    nev = true
     resetAutomatik()
-
 }
 function resetAutomatik()//loop um die generationen automatisch laufen zu lassen(ist stackbar)
 {
+    
     next()
     timer = setTimeout(resetAutomatik,250)
+    
 }
 function stop()//den Loop in resetAutomatik zu stopen (wenn resetAutomatik stackt ist muss man mehr mahls auf stop drücken)
 { 
     {
+            nev = false
             clearTimeout(timer);
             timer = 0;
+            return nev
+    }
+}
+var nev = false
+document.addEventListener("keydown", keyDownTextField, false);
+function keyDownTextField(e) {
+var keyCode = e.keyCode;
+  if(keyCode==32) {
+      
+      if (nev == false)
+      {
+          startAutomatik()
+      }else{
+          console.log("functionating")
+          stop()
+      }
+  }
+}
+
+document.addEventListener("keydown", key, false);
+function key(e)
+{
+    var keyCode = e.keyCode;
+    if (keyCode == 82)
+    {
+        reset(false)
+        //console.log("Hallo")
+    }
+}
+
+document.addEventListener("keydown", keyEvent, false);
+function keyEvent(e)
+{
+    var keyCode = e.keyCode;
+    if (keyCode == 67)
+    {
+        reset(true)
+        //console.log("Hallo")
+    }
+}
+document.addEventListener("keydown", keyEvent, false);
+function keyEvent(e)
+{
+    var keyCode = e.keyCode;
+    if (keyCode == 78)
+    {
+        next()
+        //console.log("Hallo")
     }
 }
