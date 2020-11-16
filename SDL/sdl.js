@@ -385,7 +385,7 @@ var keyCode = e.keyCode;
       {
           startAutomatik()
       }else{
-          console.log("functionating")
+          //console.log("functionating")
           stop()
       }
   }
@@ -412,8 +412,8 @@ function keyEvent(e)
         //console.log("Hallo")
     }
 }
-document.addEventListener("keydown", keyEvent, false);
-function keyEvent(e)
+document.addEventListener("keydown", keyEvents, false);
+function keyEvents(e)
 {
     var keyCode = e.keyCode;
     if (keyCode == 78)
