@@ -33,8 +33,8 @@ function next()
             bild.src = neuerBildName
         if( bildnummer == 12)
         {
-            alert("you Lost")
-            restart()
+            timer = setTimeout( function() { alert("You Lost") },250)
+            timer = setTimeout(restart,250)
        
         }
     }
@@ -68,7 +68,7 @@ function ok()
             }
             if(wortStimmt())
             {
-                alert("You Won")
+                timer = setTimeout( function() { alert("You Won") },250)
                 restart()
             }
         }
