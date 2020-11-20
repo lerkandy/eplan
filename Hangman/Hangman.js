@@ -55,7 +55,7 @@ function restart()
 function ok()
 {
     var element = document.getElementById("eingabe")
-    var eingabe = element.value
+    var eingabe = element.value.toUpperCase()
     var kommtVor = eingabeKommtVor(eingabe, wort)
     var anzahlebuchstaben = buchstabenanzahl()
     if(kommtVor)
@@ -79,6 +79,7 @@ function ok()
         next()
     }
     console.log( aktuellesWort )
+    document.getElementById("eingabe").value=""
 }
 function buchstabenanzahl()
 {
