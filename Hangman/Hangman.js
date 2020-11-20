@@ -50,7 +50,6 @@ function restart()
     bild.src = reset
     bildnummer = 1
     randomWort()
-    //setzeGeheimesWort()
     zeigeAktuellesWort()
 }
 function ok()
