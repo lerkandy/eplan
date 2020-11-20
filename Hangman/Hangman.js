@@ -1,16 +1,22 @@
 var bildnummer = 1
 var wort //= ["A","P","F","E","L","S","A","F","T"]
 var aktuellesWort //= ["_", "_", "_", "_", "_","_", "_", "_", "_"]
-
-
-function setzeGeheimesWort(neuesGeheimesWort)
+var woerter = ["HALLO","APFEL","MOM","JAVASCRIPT","HANGMAN","SCHWESTER"]
+function randomWort()
 {
-    wort = new Array(neuesGeheimesWort.length)
-    aktuellesWort = new Array(neuesGeheimesWort.length)
+    var randomItem = woerter[Math.floor(Math.random()*woerter.length)];
+    console.log(randomItem)
+    setzeGeheimesWort(randomItem)
+}
 
-    for(var i = 0; i < neuesGeheimesWort.length; i++)
+function setzeGeheimesWort(worte)
+{
+    wort = new Array(worte.length)
+    aktuellesWort = new Array(worte.length)
+
+    for(var i = 0; i < worte.length; i++)
     {  
-        wort[i] = neuesGeheimesWort[i]
+        wort[i] = worte[i]
         aktuellesWort[i] = "_"
     }
 }
@@ -43,9 +49,8 @@ function restart()
     bildElement = document.getElementById("bild")
     bild.src = reset
     bildnummer = 1
-
-    setzeGeheimesWort("Wurst")
-
+    randomWort()
+    //setzeGeheimesWort()
     zeigeAktuellesWort()
 }
 function ok()

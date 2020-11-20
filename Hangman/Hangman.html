@@ -1,5 +1,5 @@
 <html>
-    <header>
+    <header onload =randomWort()>
         <script language="javascript" type="text/javascript" src="hangman.js"></script>
     </header>
     <body onload="restart()">
@@ -9,5 +9,7 @@
         <input type=button name=next onclick="next()">
         <input type=button value=neu onclick="restart()">
         <input type=button value=ok onclick="ok()">
+        <input type=button value=ausprobieren onclick="randomWort()">
+
     </body>
 </html>
