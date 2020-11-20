@@ -1,9 +1,13 @@
 <html>
     <header>
-
+        <script language="javascript" type="text/javascript" src="hangman.js"></script>
     </header>
-    <body>
-        <p style ="font-size:1cm">_ _ _ _ _ _ _ _ _</p>
-        <p><img src="Hangman_1.png"/></p>
+    <body onload="restart()">
+        <p style ="font-size:1cm" id=wort></p>
+        <p><img src="Hangman_1.png" id=bild /></p>
+        <input type=text name=eingabe id=eingabe>
+        <input type=button name=next onclick="next()">
+        <input type=button value=neu onclick="restart()">
+        <input type=button value=ok onclick="ok()">
     </body>
 </html>
